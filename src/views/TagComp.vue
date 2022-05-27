@@ -58,6 +58,9 @@ export default {
 
 
 <style>
+input {
+  font-size: 16px;
+}
 .tag {
   width: 100px;
   display: inline-block;

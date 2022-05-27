@@ -106,6 +106,9 @@ export default {
 
 
 <style>
+input, textarea {
+  font-size: 16px;
+}
 .product__register {
   background-color: #EEE;
   text-align: left;

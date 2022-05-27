@@ -7,6 +7,7 @@
       <ul>
         <li v-for="(p, index) in searchFiltered" :key="index">
           {{ p.name }}
+
         </li>
       </ul>
     </div><!-- /.search__wrapper -->
@@ -14,23 +15,36 @@
 </template>
 
 <script>
-
 export default {
   name: 'Home',
   data() {
     return {
       searchProducts: [],
-      keyword: ''
+      keyword: '',
     }
   },
   computed: {
+    //and検索
     searchFiltered() {
-      return this.searchProducts.filter(searchProduct => {
+      return this.searchProducts.filter( searchProduct => {
         if(this.keyword) {
-          return searchProduct.selectedTags.includes(this.keyword);
+          //検索文字列をspaceで区切ったものを配列にし
+          //全ての検索文字列にマッチしたものだけtrueで返す
+          return this.keyword.toLowerCase()
+            .split(/\s+/)
+            .map( q => searchProduct.selectedTags.includes(q) || searchProduct.name.toLowerCase().indexOf(q) > -1 )
+            .every( result => result === true );
+            //everyの代わりにsome()を使うと、一つでも条件がマッチしたものでtrueを返す
         }
       })
     }
+    // searchFiltered() {
+    //   return this.searchProducts.filter(searchProduct => {
+    //     if(this.keyword) {
+    //       return searchProduct.selectedTags.includes(this.keyword);
+    //     }
+    //   })
+    // }
   },
   mounted() {
     // console.log(this.selectedTags);
@@ -47,6 +61,9 @@ export default {
 
 
 <style scoped>
+input {
+  font-size: 16px;
+}
 .search__wrapper {
   background-color: rgb(207, 244, 253);
   text-align: left;
